@@ -1,5 +1,5 @@
 # cse325-team05
 
-Nathan Johnson
-Jared Morillo
+Nathan Johnson,
+Jared Morillo,
 Katherine Gonzalez
