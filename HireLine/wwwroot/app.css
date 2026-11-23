@@ -1,3 +1,41 @@
+:root {
+    /* Brand :) */
+    --hl-primary: #2F5D8C;
+    --hl-primary-dark: #234669;
+    --hl-accent: #2A9D8F;
+
+    /* Surfaces and text (superfici e testo) */
+    --hl-bg: #F5F7FA;
+    --hl-surface: #FFFFFF;
+    --hl-text: #1F2933;
+    --hl-text-muted: #6B7785;
+    --hl-border: #D9E0E7;
+
+    /* Application status */
+    --hl-status-upcoming: #6C5CE7;
+    --hl-status-in-progress: #E9A23B;
+    --hl-status-finished: #2E7D32;
+
+    /* Overdue reminders (promemoria per scadenze superate)*/
+    --hl-overdue-bg: #FDECEA;
+    --hl-overdue-text: #B3261E;
+}
+
+body {
+    background-color: var(--hl-bg);
+    color: var(--hl-text);
+}
+
+.btn-primary {
+    background-color: var(--hl-primary);
+    border-color: var(--hl-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--hl-primary-dark);
+    border-color: var(--hl-primary-dark);
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
