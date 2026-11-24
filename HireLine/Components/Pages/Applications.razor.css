@@ -12,10 +12,16 @@
     display: inline-block;
     padding: 0.15rem 0.6rem;
     border-radius: 1rem;
-    border: 1px solid var(--hl-primary);
-    color: var(--hl-primary);
     font-size: 0.85rem;
+    color: #fff;
 }
+
+.status-saved { background-color: var(--hl-status-upcoming); }
+.status-applied,
+.status-interviewing { background-color: var(--hl-status-in-progress); color: var(--hl-text); }
+.status-offer { background-color: var(--hl-status-finished); }
+.status-rejected { background-color: var(--hl-overdue-text); }
+.status-withdrawn { background-color: var(--hl-text-muted); }
 
 .app-card {
     background-color: var(--hl-surface);
