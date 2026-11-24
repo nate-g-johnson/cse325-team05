@@ -1,0 +1,98 @@
+@page "/applications"
+@rendermode InteractiveServer
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@using HireLine.Models
+@using HireLine.Services
+@inject JobApplicationService ApplicationService
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>Applications</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">My applications</h1>
+    <a class="btn btn-primary" href="applications/new">Add application</a>
+</div>
+
+@if (applications is null)
+{
+    <p>Loading...</p>
+}
+else if (applications.Count == 0)
+{
+    <div class="empty-state">
+        <p class="mb-2">You don't have any applications yet.</p>
+        <a href="applications/new">Add your first one</a>
+    </div>
+}
+else
+{
+    @* Table for desktop *@
+    <div class="d-none d-md-block">
+        <table class="table app-table">
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Position</th>
+                    <th>Location</th>
+                    <th>Date applied</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var app in applications)
+                {
+                    <tr>
+                        <td>@app.Company</td>
+                        <td>@app.JobTitle</td>
+                        <td>@(app.Location ?? "-")</td>
+                        <td>@FormatDate(app.DateApplied)</td>
+                        <td><span class="status-badge">@app.Status</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @* Cards for mobile *@
+    <div class="d-md-none">
+        @foreach (var app in applications)
+        {
+            <div class="app-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <strong>@app.Company</strong>
+                    <span class="status-badge">@app.Status</span>
+                </div>
+                <div>@app.JobTitle</div>
+                <div class="text-muted small">
+                    @(app.Location ?? "No location") · @FormatDate(app.DateApplied)
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<JobApplication>? applications;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var userId = authState.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        // Not logged in (the [Authorize] attribute should already stop this)
+        if (userId is null)
+        {
+            applications = new();
+            return;
+        }
+
+        applications = await ApplicationService.GetAllAsync(userId);
+    }
+
+    private static string FormatDate(DateTime? date)
+    {
+        return date.HasValue ? date.Value.ToString("dd MMM yyyy") : "-";
+    }
+}
