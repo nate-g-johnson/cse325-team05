@@ -1,14 +1,11 @@
 @page "/applications/new"
 @page "/applications/edit/{Id:int}"
-
-
 @rendermode InteractiveServer
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
 @using System.Security.Claims
 @using HireLine.Models
 @using HireLine.Services
-
 @inject JobApplicationService ApplicationService
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager Navigation
@@ -16,7 +13,6 @@
 <PageTitle>@(IsEdit ? "Edit application" : "Add application")</PageTitle>
 
 <h1>@(IsEdit ? "Edit application" : "Add application")</h1>
-
 
 @if (notFound)
 {
@@ -32,7 +28,11 @@ else
 {
     <EditForm Model="application" OnValidSubmit="HandleSubmit" class="form-card">
         <DataAnnotationsValidator />
-        <ValidationSummary class="text-danger" />
+
+        @* Validation errors are announced to screen readers *@
+        <div role="alert" aria-live="polite">
+            <ValidationSummary class="text-danger" />
+        </div>
 
         @if (errorMessage is not null)
         {
@@ -141,7 +141,6 @@ else
                 UserId = existing.UserId
             };
         }
-        
         else
         {
             application = new JobApplication
