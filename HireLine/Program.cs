@@ -48,6 +48,12 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
+
+    // Demo data for local development only.
+    if (app.Environment.IsDevelopment())
+    {
+        await SeedData.InitializeAsync(scope.ServiceProvider, app.Configuration);
+    }
 }
 
 // Configure the HTTP request pipeline.
