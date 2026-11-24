@@ -1,7 +1,18 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>HireLine</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Welcome to HireLine!</h1>
+<p class="lead">Keep track of your job applications in one place and always know your next step.</p>
 
-Welcome to your new app.
+
+<AuthorizeView>
+    <Authorized>
+        <a class="btn btn-primary" href="applications">Go to my applications</a>
+    </Authorized>
+    <NotAuthorized>
+        <p>Create an account or log in to start tracking your applications.</p>
+        <a class="btn btn-primary me-2" href="Account/Register">Register</a>
+        <a class="btn btn-outline-primary" href="Account/Login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
