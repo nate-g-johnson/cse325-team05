@@ -1,0 +1,35 @@
+.app-table {
+    background-color: var(--hl-surface);
+    border: 1px solid var(--hl-border);
+}
+
+.app-table th {
+    color: var(--hl-text-muted);
+    font-weight: 600;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 1rem;
+    border: 1px solid var(--hl-primary);
+    color: var(--hl-primary);
+    font-size: 0.85rem;
+}
+
+.app-card {
+    background-color: var(--hl-surface);
+    border: 1px solid var(--hl-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.empty-state {
+    background-color: var(--hl-surface);
+    border: 1px dashed var(--hl-border);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    color: var(--hl-text-muted);
+}
