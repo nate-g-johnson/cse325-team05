@@ -38,6 +38,7 @@ else
                     <th>Location</th>
                     <th>Date applied</th>
                     <th>Status</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -49,6 +50,7 @@ else
                         <td>@(app.Location ?? "-")</td>
                         <td>@FormatDate(app.DateApplied)</td>
                         <td><span class="status-badge">@app.Status</span></td>
+                        <td><a href="applications/edit/@app.Id">Edit</a></td>
                     </tr>
                 }
             </tbody>
