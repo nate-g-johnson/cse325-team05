@@ -38,6 +38,7 @@ else
                     <th>Location</th>
                     <th>Date applied</th>
                     <th>Status</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +49,8 @@ else
                         <td>@app.JobTitle</td>
                         <td>@(app.Location ?? "-")</td>
                         <td>@FormatDate(app.DateApplied)</td>
-                        <td><span class="status-badge">@app.Status</span></td>
+                        <td><span class="@BadgeClass(app.Status)">@app.Status</span></td>
+                        <td><a href="applications/edit/@app.Id">Edit</a></td>
                     </tr>
                 }
             </tbody>
@@ -62,12 +64,13 @@ else
             <div class="app-card">
                 <div class="d-flex justify-content-between align-items-start">
                     <strong>@app.Company</strong>
-                    <span class="status-badge">@app.Status</span>
+                    <span class="@BadgeClass(app.Status)">@app.Status</span>
                 </div>
                 <div>@app.JobTitle</div>
                 <div class="text-muted small">
                     @(app.Location ?? "No location") · @FormatDate(app.DateApplied)
                 </div>
+                <a href="applications/edit/@app.Id" class="small">Edit</a>
             </div>
         }
     </div>
@@ -94,5 +97,11 @@ else
     private static string FormatDate(DateTime? date)
     {
         return date.HasValue ? date.Value.ToString("dd MMM yyyy") : "-";
+    }
+
+    // Builds the CSS classes for the status badge, e.g. "status-badge status-saved"
+    private static string BadgeClass(ApplicationStatus status)
+    {
+        return "status-badge status-" + status.ToString().ToLower();
     }
 }

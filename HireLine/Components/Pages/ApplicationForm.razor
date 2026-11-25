@@ -1,0 +1,178 @@
+@page "/applications/new"
+@page "/applications/edit/{Id:int}"
+@rendermode InteractiveServer
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@using HireLine.Models
+@using HireLine.Services
+@inject JobApplicationService ApplicationService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+
+<PageTitle>@(IsEdit ? "Edit application" : "Add application")</PageTitle>
+
+<h1>@(IsEdit ? "Edit application" : "Add application")</h1>
+
+@if (notFound)
+{
+    <div class="alert alert-warning">
+        We couldn't find that application. <a href="applications">Back to my applications</a>
+    </div>
+}
+else if (application is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="application" OnValidSubmit="HandleSubmit" class="form-card">
+        <DataAnnotationsValidator />
+
+        @* Validation errors are announced to screen readers *@
+        <div role="alert" aria-live="polite">
+            <ValidationSummary class="text-danger" />
+        </div>
+
+        @if (errorMessage is not null)
+        {
+            <div class="alert alert-danger">@errorMessage</div>
+        }
+
+        <div class="mb-3">
+            <label class="form-label" for="company">Company *</label>
+            <InputText id="company" class="form-control" @bind-Value="application.Company" />
+            <ValidationMessage For="() => application.Company" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="title">Job title *</label>
+            <InputText id="title" class="form-control" @bind-Value="application.JobTitle" />
+            <ValidationMessage For="() => application.JobTitle" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="url">Job post (link)</label>
+            <InputText id="url" class="form-control" @bind-Value="application.PostingUrl" />
+            <ValidationMessage For="() => application.PostingUrl" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="location">Location</label>
+                <InputText id="location" class="form-control" @bind-Value="application.Location" />
+                <ValidationMessage For="() => application.Location" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="salary">Salary range</label>
+                <InputText id="salary" class="form-control" @bind-Value="application.SalaryRange" />
+                <ValidationMessage For="() => application.SalaryRange" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="date">Date applied</label>
+                <InputDate id="date" class="form-control" @bind-Value="application.DateApplied" />
+                <ValidationMessage For="() => application.DateApplied" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="status">Status</label>
+                <InputSelect id="status" class="form-select" @bind-Value="application.Status">
+                    @foreach (var status in Enum.GetValues<ApplicationStatus>())
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="notes">Notes</label>
+            <InputTextArea id="notes" class="form-control" rows="4" @bind-Value="application.Notes" />
+            <ValidationMessage For="() => application.Notes" />
+        </div>
+
+        <button type="submit" class="btn btn-primary me-2" disabled="@saving">
+            @(IsEdit ? "Save changes" : "Add application")
+        </button>
+        <a class="btn btn-outline-primary" href="applications">Cancel</a>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int? Id { get; set; }
+
+    private JobApplication? application;
+    private string? userId;
+    private bool notFound;
+    private bool saving;
+    private string? errorMessage;
+
+    private bool IsEdit => Id.HasValue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        userId = authState.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null) return;
+
+        if (IsEdit)
+        {
+            var existing = await ApplicationService.GetByIdAsync(Id!.Value, userId);
+            if (existing is null)
+            {
+                notFound = true;
+                return;
+            }
+
+            // Work on a copy so a cancelled edit doesn't change the saved data
+            application = new JobApplication
+            {
+                Id = existing.Id,
+                Company = existing.Company,
+                JobTitle = existing.JobTitle,
+                PostingUrl = existing.PostingUrl,
+                Location = existing.Location,
+                SalaryRange = existing.SalaryRange,
+                DateApplied = existing.DateApplied,
+                Status = existing.Status,
+                Notes = existing.Notes,
+                UserId = existing.UserId
+            };
+        }
+        else
+        {
+            application = new JobApplication
+            {
+                DateApplied = DateTime.Today,
+                UserId = userId
+            };
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (userId is null || application is null) return;
+
+        saving = true;
+        errorMessage = null;
+
+        if (IsEdit)
+        {
+            var updated = await ApplicationService.UpdateAsync(application, userId);
+            if (!updated)
+            {
+                errorMessage = "We couldn't save your changes. Please try again.";
+                saving = false;
+                return;
+            }
+        }
+        else
+        {
+            await ApplicationService.CreateAsync(application, userId);
+        }
+
+        Navigation.NavigateTo("/applications");
+    }
+}

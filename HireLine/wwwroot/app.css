@@ -104,3 +104,31 @@ h1:focus {
     text-align: start;
 }
 
+/* Skip link: nascosto finché non riceve il focus con la tastiera */
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background-color: var(--hl-primary-dark);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    z-index: 1000;
+}
+
+.skip-link:focus {
+    left: 0;
+}
+
+/* Niente bordo quando il main riceve il focus dallo skip link */
+main:focus {
+    outline: none;
+}
+
+/* Footer */
+.app-footer {
+    border-top: 1px solid var(--hl-border);
+    color: var(--hl-text-muted);
+    font-size: 0.875rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
