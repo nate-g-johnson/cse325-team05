@@ -87,6 +87,81 @@ public static class SeedData
                 JobTitle = "QA Analyst",
                 DateApplied = today.AddDays(-30),
                 Status = ApplicationStatus.Rejected
+            },
+            new JobApplication
+            {
+                UserId = user.Id,
+                Company = "Tailspin Toys",
+                JobTitle = "Backend Developer",
+                Location = "Remote",
+                SalaryRange = "$75k - $90k",
+                DateApplied = today.AddDays(-14),
+                Status = ApplicationStatus.Interviewing,
+                Interviews =
+                {
+                    new Interview
+                    {
+                        ScheduledAt = today.AddDays(-4).AddHours(14),
+                        Type = "Video",
+                        LocationOrLink = "https://example.com/tailspin",
+                        Notes = "Met with the hiring manager."
+                    },
+                    new Interview
+                    {
+                        ScheduledAt = today.AddDays(6).AddHours(9),
+                        Type = "On-site",
+                        LocationOrLink = "123 Main St, Provo, UT"
+                    }
+                },
+                Reminders =
+                {
+                    new Reminder { DueDate = today.AddDays(4), Note = "Review C# interview questions" }
+                }
+            },
+            new JobApplication
+            {
+                UserId = user.Id,
+                Company = "Litware",
+                JobTitle = "Full Stack Developer",
+                Location = "Denver, CO",
+                SalaryRange = "$80k - $95k",
+                DateApplied = today.AddDays(-40),
+                Status = ApplicationStatus.Offer,
+                Reminders =
+                {
+                    new Reminder { DueDate = today.AddDays(2), Note = "Reply to the offer" }
+                }
+            },
+            new JobApplication
+            {
+                UserId = user.Id,
+                Company = "Proseware",
+                JobTitle = "IT Support Specialist",
+                Location = "Rexburg, ID",
+                DateApplied = today.AddDays(-25),
+                Status = ApplicationStatus.Withdrawn,
+                Notes = "Schedule didn't work with classes."
+            },
+            new JobApplication
+            {
+                UserId = user.Id,
+                Company = "Wide World Importers",
+                JobTitle = "Junior Software Engineer",
+                Location = "Remote",
+                DateApplied = today.AddDays(-5),
+                Status = ApplicationStatus.Applied,
+                Reminders =
+                {
+                    new Reminder { DueDate = today.AddDays(-1), Note = "Send portfolio link", IsCompleted = true }
+                }
+            },
+            new JobApplication
+            {
+                UserId = user.Id,
+                Company = "Coho Winery",
+                JobTitle = "Web Technician",
+                Location = "Idaho Falls, ID",
+                Status = ApplicationStatus.Saved
             });
 
         await db.SaveChangesAsync();
