@@ -47,3 +47,54 @@ Email reminders could be a stretch goal if we have time.
 ## Links
 
 - [Trello board](https://trello.com/b/FRXmtYrF/cse325-team-05)
+
+## Style Guide
+
+This guide shows the colors, fonts and spacing we use in HireLine so every page looks the same.
+All the values are CSS variables in `HireLine/wwwroot/app.css`. Please use the variables
+instead of writing colors by hand.
+
+### Colors
+
+| Variable                  | Color   | Use                                                  |
+| ------------------------- | ------- | ---------------------------------------------------- |
+| `--hl-primary`            | #2F5D8C | Main buttons, links, focus ring                      |
+| `--hl-primary-dark`       | #234669 | Sidebar, skip link                                   |
+| `--hl-primary-hover`      | #4FCFE2 | Background of the main button on hover               |
+| `--hl-accent`             | #2A9D8F | Decoration only (borders, icons). Not for text       |
+| `--hl-bg`                 | #F5F7FA | Page background                                      |
+| `--hl-surface`            | #FFFFFF | Cards, tables and forms                              |
+| `--hl-text`               | #1F2933 | Main text                                            |
+| `--hl-text-muted`         | #5A6572 | Secondary text, table headings, footer               |
+| `--hl-border`             | #D9E0E7 | Borders                                              |
+| `--hl-status-upcoming`    | #6C5CE7 | "Saved" badge                                        |
+| `--hl-status-in-progress` | #E9A23B | "Applied" and "Interviewing" badges (with dark text) |
+| `--hl-status-finished`    | #2E7D32 | "Offer" badge                                        |
+| `--hl-overdue-bg`         | #FDECEA | Background for overdue reminders                     |
+| `--hl-overdue-text`       | #B3261E | Text for overdue reminders and "Rejected" badge      |
+
+### Fonts
+
+We use one font family, `--hl-font-base` (Helvetica Neue, Helvetica, Arial).
+
+| Variable         | Size     | Use                |
+| ---------------- | -------- | ------------------ |
+| `--hl-text-sm`   | 0.875rem | Small text, footer |
+| `--hl-text-base` | 1rem     | Normal text        |
+| `--hl-text-lg`   | 1.25rem  | Subheadings        |
+| `--hl-text-xl`   | 1.75rem  | Page titles        |
+
+### Spacing
+
+| Variable        | Size   |
+| --------------- | ------ |
+| `--hl-space-sm` | 0.5rem |
+| `--hl-space-md` | 1rem   |
+| `--hl-space-lg` | 1.5rem |
+
+### Accessibility
+
+- Text and background colors have a contrast ratio of at least 4.5:1 (WCAG AA).
+- The application status is always shown with text, not only with color.
+- Every form input has a visible label linked to it.
+- The layout has a "Skip to main content" link and a visible focus ring for keyboard users.
