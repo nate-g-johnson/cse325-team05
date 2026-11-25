@@ -3,12 +3,13 @@
     --hl-primary: #2F5D8C;
     --hl-primary-dark: #234669;
     --hl-accent: #2A9D8F;
+    --hl-primary-hover: #4FCFE2;
 
     /* backgrounds and text */
     --hl-bg: #F5F7FA;
     --hl-surface: #FFFFFF;
     --hl-text: #1F2933;
-    --hl-text-muted: #6B7785;
+    --hl-text-muted: #5a6572    ;
     --hl-border: #D9E0E7;
 
     /* Application status- Stato della candidatura */
@@ -19,11 +20,21 @@
     /* Overdue reminders - Promemoria scaduti */
     --hl-overdue-bg: #FDECEA;
     --hl-overdue-text: #B3261E;
-}
+    /* Typography */
+    --hl-font-base: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --hl-text-sm: 0.875rem;
+    --hl-text-base: 1rem;
+    --hl-text-lg: 1.25rem;
+    --hl-text-xl: 1.75rem;
 
+    /* Spacing */
+    --hl-space-sm: 0.5rem;
+    --hl-space-md: 1rem;
+    --hl-space-lg: 1.5rem;
+}
 /* Global Styles */
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: var(--hl-font-base);
 }
 body {
     background-color: var(--hl-bg);
@@ -49,13 +60,11 @@ h1:focus {
     border-color: var(--hl-primary);
     color: #fff;
 }
-
 .btn-primary:hover {
-    background-color:#4fcfe2; ;
-    border-color: #4fcfe2;
-    color:var(--h1-primary-dark);
+    background-color: var(--hl-primary-hover);
+    border-color: var(--hl-primary-hover);
+    color: var(--hl-primary-dark);
 }
-
 /* Bottone con solo il bordo (Log in) */
 .btn-outline-primary {
     color: var(--hl-primary);
